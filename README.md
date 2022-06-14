@@ -1,5 +1,5 @@
-# component-creator
+# Swoole Table
 
 ```
-composer create-project hyperf/component-creator
+composer require death_satan/hyperf-swoole-table -vvv
 ```
