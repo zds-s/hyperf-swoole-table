@@ -29,11 +29,16 @@ class AppBootingListeners implements ListenerInterface
 
     public function process(object $event)
     {
-        $tables = config('swoole_table.tables',[]);
-        foreach ($tables as $table)
+        $tables_path =config('swoole_table.tables.scanner_path');
+        $namespace = config('swoole_table.tables.namespace');
+        foreach (scandir($tables_path) as $path)
         {
-            $table_object = make($table);
-            $this->container->set(get_class($table_object),$table_object);
+            if ($path=='.'||$path=='..')
+            {
+                continue;
+            }
+            $class_name = $namespace.pathinfo($path,PATHINFO_FILENAME);
+            $this->container->set($class_name,make($class_name));
         }
     }
 }
